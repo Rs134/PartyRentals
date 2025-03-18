@@ -2,9 +2,10 @@ const { MongoClient } = require('mongodb');
 const dbURL = process.env.ATLAS_URI;
 
 let db;
+
 async function connectToDB() {
   try {
-    const client = new MongoClient(dbURL, { useUnifiedTopology: true });
+    const client = new MongoClient(dbURL); 
     await client.connect();
     console.log('Connected to MongoDB');
     db = client.db("Party_Rentals");
