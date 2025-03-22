@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const { getCollection } = require('../models/db');
+const { connectToDB, getCollection } = require('../models/db'); 
 
 const transport = nodemailer.createTransport({
   service: 'gmail',
@@ -10,14 +10,14 @@ const transport = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-})
+});
 
 router.get('/', function(req, res, next) {
     res.render('catalog', { title: 'Party Rentals', confirmation: req.query.confirmation || null }); 
-  });
+});
 
-router.post('/quoteSubmission', async(req,res) => {
-    const{
+router.post('/quoteSubmission', async(req, res) => {
+    const {
         firstname,
         lastname,
         email,
@@ -41,7 +41,9 @@ router.post('/quoteSubmission', async(req,res) => {
     } = req.body;
 
     try {
-        const quoteCollection = getCollection('quotes');
+        const db = await connectToDB(); 
+        const quoteCollection = db.collection('quotes');  
+
         const newQuotes = {
             firstname,
             lastname,
@@ -54,7 +56,7 @@ router.post('/quoteSubmission', async(req,res) => {
             whitechaircoversqty,
             cocktailqty,
             blackcocktailcoversqty,
-            whitechaircoversqty,
+            whitecocktailcoversqty,
             roundtablesqty,
             rectangleqty,
             sixarmsilverchandelier,
@@ -64,47 +66,47 @@ router.post('/quoteSubmission', async(req,res) => {
             tents,
             extra
         };
-        await quoteCollection.insertOne(newQuotes);  
+
+        await quoteCollection.insertOne(newQuotes); 
 
         const mailnotif = {
             from: process.env.EMAIL_USER,
             to: process.env.NOTIFY_EMAIL,
             subject: "Request a Quote Form Submission",
-            text: 
-            `Request a Quote Form Details:
-            First Name: ${firstname}
-            Last Name: ${lastname}
-            Email: ${email}
-            Phone: ${phone}
-            Address: ${address}
-            Setup Date: ${setup}
-            Pickup Date: ${pickup}
-            Chairs: ${chairsqty}
-            White Chair Covers: ${whitechaircoversqty}
-            Cocktail Tables: ${cocktailqty}
-            Black Cocktail Table Covers: ${blackcocktailcoversqty}
-            White Cocktail Table Covers: ${whitecocktailcoversqty}
-            Round Tables: ${roundtablesqty}
-            Rectangle Tables: ${rectangleqty}
-            6 Arm Silver Chandelier: ${sixarmsilverchandelier}
-            8 Arm Silver Chandelier: ${eightarmsilverchandelier}
-            10 Arm Gold Chandelier: ${tenarmgoldchandelier}
-            Chafers: ${chaferqty}
-            Tent Sizes: ${tents}
-            Additional Details: ${extra}
+            text: `
+                Request a Quote Form Details:
+                First Name: ${firstname}
+                Last Name: ${lastname}
+                Email: ${email}
+                Phone: ${phone}
+                Address: ${address}
+                Setup Date: ${setup}
+                Pickup Date: ${pickup}
+                Chairs: ${chairsqty}
+                White Chair Covers: ${whitechaircoversqty}
+                Cocktail Tables: ${cocktailqty}
+                Black Cocktail Table Covers: ${blackcocktailcoversqty}
+                White Cocktail Table Covers: ${whitecocktailcoversqty}
+                Round Tables: ${roundtablesqty}
+                Rectangle Tables: ${rectangleqty}
+                6 Arm Silver Chandelier: ${sixarmsilverchandelier}
+                8 Arm Silver Chandelier: ${eightarmsilverchandelier}
+                10 Arm Gold Chandelier: ${tenarmgoldchandelier}
+                Chafers: ${chaferqty}
+                Tent Sizes: ${tents}
+                Additional Details: ${extra}
             `
-          }
-      
-          transport.sendMail(mailnotif, (error,info) => {
-            if(error){
-              console.error("Error sending email: ", error)
-            } else{
-              console.log("Email sent: " + info.response)
-            }
-          })
-          
-        res.redirect('/catalog/?confirmation=true');
+        };
 
+        transport.sendMail(mailnotif, (error, info) => {
+            if (error) {
+                console.error("Error sending email: ", error);
+            } else {
+                console.log("Email sent: " + info.response);
+            }
+        });
+
+        res.redirect('/catalog/?confirmation=true');
     } catch (error) {
         console.error('Error saving contact form data:', error);
         res.status(500).send('There was an error processing your request.');
