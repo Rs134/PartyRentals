@@ -1,5 +1,5 @@
 const { MongoClient } = require('mongodb');
-const dbURL = process.env.ATLAS_URI;
+const dbURL = process.env.ATLAS_URI; 
 
 let client;
 let db;
@@ -12,18 +12,10 @@ async function connectToDB() {
 
   try {
     console.log("Connecting to MongoDB...");
-    client = new MongoClient(dbURL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      tls: true,
-      serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 30000,
-      tlsAllowInvalidCertificates: false,
-    });
-
+    client = new MongoClient(dbURL);
     await client.connect();
     console.log("Connected to MongoDB");
-    db = client.db("Party_Rentals");
+    db = client.db("Party_Rentals"); 
     return db;
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
