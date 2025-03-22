@@ -13,13 +13,13 @@ async function connectToDB() {
   try {
     console.log("Connecting to MongoDB...");
     client = new MongoClient(dbURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
       tls: true,
-      tlsAllowInvalidCertificates: false,
-      tlsAllowInvalidHostnames: true,
-      serverSelectionTimeoutMS: 10000, 
+      serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 30000,
+      tlsAllowInvalidCertificates: false,
     });
-    
 
     await client.connect();
     console.log("Connected to MongoDB");
