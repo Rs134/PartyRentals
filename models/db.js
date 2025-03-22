@@ -12,14 +12,22 @@ async function connectToDB() {
 
   try {
     console.log("Connecting to MongoDB...");
-    client = new MongoClient(dbURL);
+    client = new MongoClient(dbURL, {
+      useUnifiedTopology: true,   
+      useNewUrlParser: true,     
+      tls: true,             
+      serverSelectionTimeoutMS: 10000, 
+      socketTimeoutMS: 30000,    
+      tlsAllowInvalidCertificates: false, 
+    });
+
     await client.connect();
     console.log("Connected to MongoDB");
     db = client.db("Party_Rentals");
     return db;
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
-    throw error;
+    throw error; 
   }
 }
 
