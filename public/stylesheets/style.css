@@ -450,12 +450,19 @@ header {
 form {
   display: flex;
   flex-direction: column;
-  padding: 40px;
+  padding: 20px;
   background-color: white;
-  width: 500px;
-  gap: 60px;
-  height: 700px;
+  width: 550px;
+  gap: 40px;
+  height: 800px;
   border-radius: 20px;
+}
+
+.disclaimer{
+  color: rgb(101, 196, 255);
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
 }
 
 input {

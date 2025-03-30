@@ -213,6 +213,13 @@ header {
 
 }
 
+.disclaimer{
+  color: rgb(101, 196, 255);
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
+}
+
 form{
   display: flex;
   flex-direction: column;
