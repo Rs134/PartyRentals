@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const sliderImages = [
     "/images/IMG_0808.jpeg",
-    "/images/IMG_1483.JPG",
+    "/images/IMG_1483.jpg",
     "/images/IMG_68953.JPG",
     "/images/IMG_1609.jpg",
     "/images/IMG_7080.jpg",
