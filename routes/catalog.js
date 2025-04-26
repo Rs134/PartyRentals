@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const { connectToDB, getCollection } = require('../models/db'); 
 
 const transport = nodemailer.createTransport({
   service: 'gmail',
@@ -16,7 +15,7 @@ router.get('/', function(req, res, next) {
     res.render('catalog', { title: 'Party Rentals', confirmation: req.query.confirmation || null }); 
 });
 
-router.post('/quoteSubmission', async(req, res) => {
+router.post('/quoteSubmission', async (req, res) => {
     const {
         firstname,
         lastname,
@@ -41,33 +40,7 @@ router.post('/quoteSubmission', async(req, res) => {
     } = req.body;
 
     try {
-        const db = await connectToDB(); 
-        const quoteCollection = db.collection('quotes');  
-
-        const newQuotes = {
-            firstname,
-            lastname,
-            email,
-            phone,
-            address,
-            setup,
-            pickup,
-            chairsqty,
-            whitechaircoversqty,
-            cocktailqty,
-            blackcocktailcoversqty,
-            whitecocktailcoversqty,
-            roundtablesqty,
-            rectangleqty,
-            sixarmsilverchandelier,
-            eightarmsilverchandelier,
-            tenarmgoldchandelier,
-            chaferqty,
-            tents,
-            extra
-        };
-
-        await quoteCollection.insertOne(newQuotes); 
+        // Removed database logic
 
         const mailnotif = {
             from: process.env.EMAIL_USER,
@@ -108,7 +81,7 @@ router.post('/quoteSubmission', async(req, res) => {
 
         res.redirect('/catalog/?confirmation=true');
     } catch (error) {
-        console.error('Error saving contact form data:', error);
+        console.error('Error sending email:', error);
         res.status(500).send('There was an error processing your request.');
     }
 });

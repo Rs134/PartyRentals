@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const { connectToDB, getCollection } = require('../models/db');  
 
 const transport = nodemailer.createTransport({
   service: 'gmail',
@@ -20,16 +19,7 @@ router.post('/submit', async (req, res) => {
   const { name, email, message } = req.body;
 
   try {
-
-    const db = await connectToDB();
-    const contactsCollection = getCollection('contacts');
-    
-
-    const newContact = { name, email, message };
-
-
-    await contactsCollection.insertOne(newContact);
-
+    // Removed database logic
 
     const mailnotif = {
       from: process.env.EMAIL_USER,
@@ -37,7 +27,6 @@ router.post('/submit', async (req, res) => {
       subject: "Contact Form Submission",
       text: `Contact Form Submission\nName: ${name}\nEmail: ${email}\nMessage: ${message}`,
     };
-
 
     transport.sendMail(mailnotif, (error, info) => {
       if (error) {
@@ -48,10 +37,9 @@ router.post('/submit', async (req, res) => {
       console.log("Email sent: " + info.response);
     });
 
-
     res.redirect('/?confirmation=true');
   } catch (error) {
-    console.error('Error saving contact form data:', error);
+    console.error('Error processing contact form data:', error);
     res.status(500).send('There was an error processing your request.');
   }
 });
