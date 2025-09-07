@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "/images/IMG_52162.jpg",
     "/images/IMG_7017.jpg",
     "/images/IMG_1741.jpg",
-    "/images/IMG_020.jpg",
-    "/images/IMG_2214.JPG"
+    "/images/IMG_2214.JPG",
+    "/images/IMG_0808.jpeg"
   ];
 
   const sliderElement2 = document.querySelector('.slider2 img');
