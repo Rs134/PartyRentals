@@ -8,6 +8,7 @@ body, html {
   color: white;
   overflow-x: hidden;
   animation: pagefade 2s ease-in-out;
+  scroll-behavior: smooth;
 }
 
 @keyframes pagefade {
@@ -900,6 +901,7 @@ footer{
 
   #Testimonials{
     scroll-margin-top: 25px;
+    scroll-behavior: smooth;
   }
 
   .text-box{
@@ -913,6 +915,7 @@ footer{
 
   #Contact{
     scroll-margin-top: 50px;
+    scroll-behavior: smooth;
   }
 
   
