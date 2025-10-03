@@ -320,6 +320,13 @@ footer{
   padding: 20px;
 }
 
+@media (max-width: 1440px) {
+  .input-flex{
+    gap: 10px;
+  }
+  
+}
+
 @media (max-width: 1200px) {
   header{
     justify-content: center;
