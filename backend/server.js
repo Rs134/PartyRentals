@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5005;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://reazpartyrentals.onrender.com"
+  "https://reazpartyrentals.onrender.com/",
 ];
 
 app.use(
