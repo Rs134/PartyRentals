@@ -9,17 +9,26 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5005;
 
-// ✅ FIX: Configure CORS properly
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://reazpartyrentals.onrender.com",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://reazpartyrentals.onrender.com",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.warn("❌ Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
   })
 );
+
 
 
 app.use(express.json());
