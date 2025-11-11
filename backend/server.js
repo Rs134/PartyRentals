@@ -12,12 +12,15 @@ const PORT = process.env.PORT || 5005;
 // ✅ FIX: Configure CORS properly
 app.use(
   cors({
-    origin: "http://localhost:5173", // your React dev server
+    origin: [
+      "http://localhost:5173",
+      "https://reazpartyrentals.onrender.com",
+    ],
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
-    credentials: false,
   })
 );
+
 
 app.use(express.json());
 
