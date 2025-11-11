@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5005;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://reazpartyrentals.onrender.com",
+  "https://reazpartyrentals.onrender.com"
 ];
 
 app.use(
@@ -38,7 +38,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/quote", quoteRoutes);
 
 // --- Test Route ---
-app.get("/", (req, res) => res.send("✅ Server is running..."));
+app.get("/", (req, res) => res.json({ message: "✅ Server is running..." }));
 
 // --- Error Handler ---
 app.use((err, req, res, next) => {
