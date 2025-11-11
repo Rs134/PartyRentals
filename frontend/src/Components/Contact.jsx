@@ -24,7 +24,7 @@ function Contact() {
     setStatus("Sending...");
 
     try {
-      const response = await fetch("http://localhost:5005/api/contact", {
+      const response = await fetch("https://reazpartyrentals.onrender.com/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -41,7 +41,7 @@ function QuoteForm() {
     setStatus("Sending...");
 
     try {
-      const response = await fetch("http://localhost:5005/api/quote", {
+      const response = await fetch("https://reazpartyrentals.onrender.com/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
