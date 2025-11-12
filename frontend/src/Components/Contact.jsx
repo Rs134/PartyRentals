@@ -19,33 +19,37 @@ function Contact() {
   };
 
   // Handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Sending...");
-
-    try {
-      const response = await fetch("https://reazpartyrentals.onrender.com/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus("✅ Thank you! Your message has been sent.");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setStatus("❌ Something went wrong. Please try again.");
-        console.error(data.message);
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setStatus("Sending...");
+    
+      try {
+        const response = await fetch("https://reazpartyrentals-backend.onrender.com/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+    
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          data = {};
+        }
+    
+        if (response.ok) {
+          setStatus("✅ Thank you! Your message has been sent.");
+          setFormData({ name: "", email: "", message: "" });
+        } else {
+          setStatus("❌ Something went wrong. Please try again.");
+          console.error(data.message || "Server error");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        setStatus("⚠️ Network error. Please try again later.");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setStatus("⚠️ Network error. Please try again later.");
-    }
-  };
+    };
+    
 
   return (
     <section id="Contact">
