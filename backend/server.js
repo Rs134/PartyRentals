@@ -9,24 +9,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5005;
 
-// ✅ Include both dev and deployed origins
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://reazpartyrentals.onrender.com"
-];
-
+// ✅ FIX: Configure CORS properly
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.warn("❌ Blocked by CORS:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: ["http://localhost:5173", "https://reazpartyrentals.onrender.com"],
     methods: ["GET", "POST", "OPTIONS"],
-    credentials: true,
+    allowedHeaders: ["Content-Type"],
+    credentials: false,
   })
 );
 
@@ -36,9 +25,13 @@ app.use(express.json());
 app.use("/api/contact", contactRoutes);
 app.use("/api/quote", quoteRoutes);
 
-// --- Root Route ---
-app.get("/", (req, res) => {
-  res.send("✅ Party Rentals backend running successfully!");
+// --- Test Route ---
+app.get("/", (req, res) => res.send("✅ Server is running..."));
+
+// --- Error Handler ---
+app.use((err, req, res, next) => {
+  console.error("Unhandled Error:", err);
+  res.status(500).json({ success: false, message: "Internal Server Error" });
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
