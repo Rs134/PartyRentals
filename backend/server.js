@@ -15,7 +15,6 @@ const allowedOrigins = [
   "https://reazpartyrentals.onrender.com"
 ];
 
-// ✅ Apply CORS globally and correctly
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -27,12 +26,9 @@ app.use(
       }
     },
     methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Content-Type"],
     credentials: true,
   })
 );
-
-// ✅ Ensure Express can handle preflight requests automatically
 
 app.use(express.json());
 
@@ -40,17 +36,9 @@ app.use(express.json());
 app.use("/api/contact", contactRoutes);
 app.use("/api/quote", quoteRoutes);
 
-// --- Root Test Route ---
+// --- Root Route ---
 app.get("/", (req, res) => {
-  res.json({ message: "✅ Party Rentals backend is running..." });
-});
-
-// --- Error Handler ---
-app.use((err, req, res, next) => {
-  console.error("Unhandled Error:", err);
-  res
-    .status(500)
-    .json({ success: false, message: "Internal Server Error (CORS or Mail)" });
+  res.send("✅ Party Rentals backend running successfully!");
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
