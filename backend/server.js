@@ -9,11 +9,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5005;
 
+// ✅ Include both dev and deployed origins
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://reazpartyrentals.onrender.com/",
+  "https://reazpartyrentals.onrender.com"
 ];
 
+// ✅ Apply CORS globally and correctly
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -26,10 +28,11 @@ app.use(
     },
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type"],
+    credentials: true,
   })
 );
 
-
+// ✅ Ensure Express can handle preflight requests automatically
 
 app.use(express.json());
 
@@ -37,13 +40,17 @@ app.use(express.json());
 app.use("/api/contact", contactRoutes);
 app.use("/api/quote", quoteRoutes);
 
-// --- Test Route ---
-app.get("/", (req, res) => res.json({ message: "✅ Server is running..." }));
+// --- Root Test Route ---
+app.get("/", (req, res) => {
+  res.json({ message: "✅ Party Rentals backend is running..." });
+});
 
 // --- Error Handler ---
 app.use((err, req, res, next) => {
   console.error("Unhandled Error:", err);
-  res.status(500).json({ success: false, message: "Internal Server Error" });
+  res
+    .status(500)
+    .json({ success: false, message: "Internal Server Error (CORS or Mail)" });
 });
 
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
