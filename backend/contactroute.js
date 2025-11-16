@@ -1,8 +1,13 @@
 import express from "express";
 import { Resend } from "resend";
+import dotenv from "dotenv";
+
+// MUST be FIRST
+dotenv.config();
 
 const router = express.Router();
 const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 router.post("/send", async (req, res) => {
   const { firstname, lastname, email, message } = req.body;
