@@ -9,6 +9,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5005;
 
+// ✅ FIX: Configure CORS properly
 app.use(
   cors({
     origin: ["https://reazpartyrentals.onrender.com"],

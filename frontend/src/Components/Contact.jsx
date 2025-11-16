@@ -3,14 +3,15 @@ import { useState } from "react";
 
 function Contact() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
     email: "",
     message: "",
   });
 
   const [status, setStatus] = useState("");
 
-  // Handle input changes
+  // Handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -18,39 +19,43 @@ function Contact() {
     });
   };
 
-  // Handle form submit
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
 
     try {
-      const response = await fetch("https://reazpartyrentals-backend.onrender.com/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const response = await fetch(
+        "https://reazpartyrentals-backend.onrender.com/api/contact/send",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData), // ⭐ Only send the fields needed
+        }
+      );
 
       if (response.ok) {
-        setStatus("✅ Thank you! Your message has been sent.");
-        setFormData({ name: "", email: "", message: "" });
+        setStatus("✅ Message sent successfully!");
+        setFormData({
+          firstname: "",
+          lastname: "",
+          email: "",
+          message: "",
+        });
       } else {
-        setStatus("❌ Something went wrong. Please try again.");
-        console.error(data.message);
+        setStatus("❌ Failed to send message.");
       }
     } catch (error) {
-      console.error("Error:", error);
-      setStatus("⚠️ Network error. Please try again later.");
+      console.error("Error sending message:", error);
+      setStatus("⚠️ Unable to reach server.");
     }
   };
 
   return (
     <section id="Contact">
       <div className="contact-container">
-        {/* Thank You / Social Section */}
+
+        {/* Social section */}
         <div className="thank-you">
           <img id="thanks-pic" src="/images/logo.png" alt="Company Logo" />
 
@@ -83,16 +88,26 @@ function Contact() {
           </div>
         </div>
 
-        {/* Form Section */}
+        {/* Contact Form */}
         <form className="contact-form" onSubmit={handleSubmit}>
           <input
             type="text"
-            name="name"
-            placeholder="Name"
+            name="firstname"
+            placeholder="First Name"
             required
-            value={formData.name}
+            value={formData.firstname}
             onChange={handleChange}
           />
+
+          <input
+            type="text"
+            name="lastname"
+            placeholder="Last Name"
+            required
+            value={formData.lastname}
+            onChange={handleChange}
+          />
+
           <input
             type="email"
             name="email"
@@ -101,6 +116,7 @@ function Contact() {
             value={formData.email}
             onChange={handleChange}
           />
+
           <textarea
             name="message"
             placeholder="Your Message"
@@ -108,6 +124,7 @@ function Contact() {
             value={formData.message}
             onChange={handleChange}
           ></textarea>
+
           <button id="contact-submit" type="submit">
             Submit
           </button>

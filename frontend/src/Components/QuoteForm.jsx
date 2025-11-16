@@ -27,7 +27,7 @@ function QuoteForm() {
 
   const [status, setStatus] = useState("");
 
-  // handle input change
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -35,22 +35,25 @@ function QuoteForm() {
     });
   };
 
-  // handle submit
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
 
     try {
-      const response = await fetch("https://reazpartyrentals-backend.onrender.com/api/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
+      const response = await fetch(
+        "https://reazpartyrentals-backend.onrender.com/api/quote",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         setStatus("✅ Quote request sent successfully!");
+
+        // Reset form after success
         setFormData({
           firstname: "",
           lastname: "",
@@ -75,10 +78,9 @@ function QuoteForm() {
         });
       } else {
         setStatus("❌ Failed to send. Please try again.");
-        console.error(data.message);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error sending quote request:", error);
       setStatus("⚠️ Network error. Please try again later.");
     }
   };
@@ -109,19 +111,20 @@ function QuoteForm() {
               <input
                 type="text"
                 name="firstname"
+                required
                 value={formData.firstname}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <div className={styles.formGroup}>
               <label>Last Name:</label>
               <input
                 type="text"
                 name="lastname"
+                required
                 value={formData.lastname}
                 onChange={handleChange}
-                required
               />
             </div>
           </div>
@@ -131,9 +134,9 @@ function QuoteForm() {
             <input
               type="email"
               name="email"
+              required
               value={formData.email}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -142,9 +145,9 @@ function QuoteForm() {
             <input
               type="number"
               name="phone"
+              required
               value={formData.phone}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -153,9 +156,9 @@ function QuoteForm() {
             <input
               type="text"
               name="address"
+              required
               value={formData.address}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -165,23 +168,25 @@ function QuoteForm() {
               <input
                 type="date"
                 name="setup"
+                required
                 value={formData.setup}
                 onChange={handleChange}
-                required
               />
             </div>
+
             <div className={styles.formGroup}>
               <label>Pickup Date:</label>
               <input
                 type="date"
                 name="pickup"
+                required
                 value={formData.pickup}
                 onChange={handleChange}
-                required
               />
             </div>
           </div>
 
+          {/* Rental Item Inputs */}
           <div className={styles.itemsGrid}>
             {rentalItems.map((item, index) => {
               const key = item.toLowerCase().replace(/ /g, "");
