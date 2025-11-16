@@ -27,7 +27,6 @@ function QuoteForm() {
 
   const [status, setStatus] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -35,7 +34,6 @@ function QuoteForm() {
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -53,7 +51,6 @@ function QuoteForm() {
       if (response.ok) {
         setStatus("✅ Quote request sent successfully!");
 
-        // Reset form after success
         setFormData({
           firstname: "",
           lastname: "",
@@ -186,7 +183,6 @@ function QuoteForm() {
             </div>
           </div>
 
-          {/* Rental Item Inputs */}
           <div className={styles.itemsGrid}>
             {rentalItems.map((item, index) => {
               const key = item.toLowerCase().replace(/ /g, "");

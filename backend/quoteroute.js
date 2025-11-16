@@ -1,12 +1,14 @@
 // server/routes/quoteRoutes.js
 import express from "express";
-import { Resend } from "resend";
 import dotenv from "dotenv";
+import sgMail from "@sendgrid/mail";
 
 dotenv.config();
 
 const router = express.Router();
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// ⭐ Correct SendGrid API key usage
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.post("/", async (req, res) => {
   const data = req.body;
@@ -20,47 +22,40 @@ router.post("/", async (req, res) => {
     })
     .join("");
 
+  const msg = {
+    to: "reazpartyrentals@gmail.com",
+    from: "Reaz Party Rentals <reazpartyrentals@gmail.com>", // ⭐ your own verified sender
+    replyTo: data.email, // ⭐ reply directly to customer
+    subject: "New Quote Request Submission",
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 10px;">
+        <h2>New Quote Request</h2>
+
+        <p><b>Name:</b> ${data.firstname} ${data.lastname}</p>
+        <p><b>Email:</b> ${data.email}</p>
+        <p><b>Phone:</b> ${data.phone}</p>
+        <p><b>Event Address:</b> ${data.address}</p>
+
+        <p><b>Setup Date:</b> ${data.setup}</p>
+        <p><b>Pickup Date:</b> ${data.pickup}</p>
+
+        <h3>Requested Items</h3>
+        <ul>${itemRows || "<li>No quantities entered.</li>"}</ul>
+
+        <h3>Tent Sizes</h3>
+        <p>${data.tents || "None provided"}</p>
+
+        <h3>Additional Requests</h3>
+        <p>${data.extra || "None"}</p>
+      </div>
+    `,
+  };
+
   try {
-    await resend.emails.send({
-      from: "Reaz Party Rentals <onboarding@resend.dev>",
-      to: "reazpartyrentals@gmail.com",
-
-      // ⭐ Allows you to reply directly to the customer
-      reply_to: data.email,
-
-      subject: "New Quote Request Submission",
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 10px;">
-
-          <h2 style="color:#333;">New Quote Request</h2>
-
-          <p><b>Name:</b> ${data.firstname} ${data.lastname}</p>
-          <p><b>Email:</b> ${data.email}</p>
-          <p><b>Phone:</b> ${data.phone}</p>
-          <p><b>Event Address:</b> ${data.address}</p>
-
-          <p><b>Setup Date:</b> ${data.setup}</p>
-          <p><b>Pickup Date:</b> ${data.pickup}</p>
-
-          <h3 style="margin-top: 20px;">Requested Items</h3>
-          <ul>
-            ${itemRows || "<li>No specific quantities provided.</li>"}
-          </ul>
-
-          <h3 style="margin-top: 20px;">Tent Sizes</h3>
-          <p>${data.tents || "None provided"}</p>
-
-          <h3 style="margin-top: 20px;">Additional Requests</h3>
-          <p>${data.extra || "None"}</p>
-
-        </div>
-      `,
-    });
-
+    await sgMail.send(msg);
     res.status(200).json({ success: true, message: "Quote request sent!" });
-
   } catch (error) {
-    console.error("Resend Quote Error:", error);
+    console.error("SendGrid Error:", error.response?.body || error);
     res.status(500).json({ success: false, message: "Failed to send email." });
   }
 });

@@ -11,7 +11,7 @@ function Contact() {
 
   const [status, setStatus] = useState("");
 
-  // Handle input change
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,7 +19,7 @@ function Contact() {
     });
   };
 
-  // Handle submit
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -30,7 +30,12 @@ function Contact() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData), // ⭐ Only send the fields needed
+          body: JSON.stringify({
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            email: formData.email,
+            message: formData.message,
+          }),
         }
       );
 
@@ -55,7 +60,7 @@ function Contact() {
     <section id="Contact">
       <div className="contact-container">
 
-        {/* Social section */}
+        {/* Social Section */}
         <div className="thank-you">
           <img id="thanks-pic" src="/images/logo.png" alt="Company Logo" />
 
