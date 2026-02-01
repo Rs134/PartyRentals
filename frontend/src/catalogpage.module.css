@@ -27,6 +27,7 @@
   font-size: 15px;
   line-height: 1.5;
   animation: fade 2s ease-in-out;
+  margin-top: 200px;
 }
 
 @keyframes fade {
@@ -221,8 +222,85 @@
   background: #010f32;
   color: white;
 }
+@media (max-width: 950px) {
+  .tentItem img {
+    width: 810px;
+    height: 450px;
+    border-radius: 5px;
+  }
 
-@media (max-width: 480px) {
+  .form{
+    width: 720px;
+  }
+}
+@media (max-width: 850px) {
+  .tentItem img {
+    width: 710px;
+    height: 450px;
+    border-radius: 5px;
+  }
+
+  .form{
+    width: 720px;
+  }
+}
+
+@media (max-height: 1403px){
+  .catalogOpening{
+    margin-top: 335px
+  }
+
+  .catalogGrid{
+    margin-top: 420px;
+  }
+}
+
+@media (max-height: 900px){
+  .catalogOpening{
+    margin-top: 215px
+  }
+
+}
+
+@media (max-width: 730px) {
+  .catalogOpening{
+    margin-top: 75px
+  }
+
+  .tentItem img {
+    width: auto;
+    height: 375px;
+    border-radius: 5px;
+  }
+
+  .form{
+    width: 420px;
+  }
+  .rowFlex{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 530px) {
+  .catalogOpening{
+    margin-top: 75px
+  }
+
+  .tentItem img {
+    width: 420px;
+    height: 375px;
+    border-radius: 5px;
+  }
+
+  .form{
+    width: 420px;
+  }
+  .rowFlex{
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 435px) {
   .catalogOpening{
     margin-top: 75px
   }
@@ -231,5 +309,12 @@
     width: 400px;
     height: 375px;
     border-radius: 5px;
+  }
+
+  .form{
+    width: 420px;
+  }
+  .rowFlex{
+    flex-direction: column;
   }
 }
