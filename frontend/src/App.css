@@ -194,9 +194,6 @@ header {
   padding: 50px;
   background: linear-gradient(to left, #ffffff 50%, #000c40 50%);}
 
-
-
-
 #About {
   margin-top: 190px;
   scroll-margin-top: 170px;
@@ -780,7 +777,7 @@ textarea:focus {
 @media (max-width: 480px) {
 
   .slider1-container .slider2-container .slider1-section .slider2-section{
-    height: 450px; /* Adjust height for mobile */
+    height: 550px; /* Adjust height for mobile */
   }
 
   .slider1 img,
@@ -879,7 +876,7 @@ textarea:focus {
     flex-direction: column;
   }
 
-  form{
+  .contact-form{
     width: 410px;
   }
 
@@ -904,3 +901,4 @@ textarea:focus {
 
   
 }
+
