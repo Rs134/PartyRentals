@@ -22,25 +22,24 @@ function Contact() {
   // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
+
+    // Prepare form data for Web3Forms
+    const formDataToSend = new FormData();
+    formDataToSend.append("access_key", "65ae3cf4-6a2a-434d-9e47-0400e03d49e7");
+    formDataToSend.append("name", `${formData.firstname} ${formData.lastname}`);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("message", formData.message);
 
     try {
-      const response = await fetch(
-        "https://reazpartyrentals-backend.onrender.com/api/contact/send",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstname: formData.firstname,
-            lastname: formData.lastname,
-            email: formData.email,
-            message: formData.message,
-          }),
-        }
-      );
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataToSend,
+      });
+
+      const data = await response.json();
 
       if (response.ok) {
-        setStatus("✅ Message sent successfully!");
+        alert("Success! Your message has been sent.");
         setFormData({
           firstname: "",
           lastname: "",
@@ -48,19 +47,17 @@ function Contact() {
           message: "",
         });
       } else {
-        setStatus("❌ Failed to send message.");
+        alert("Error: " + data.message);
       }
     } catch (error) {
       console.error("Error sending message:", error);
-      setStatus("⚠️ Unable to reach server.");
+      alert("Something went wrong. Please try again.");
     }
   };
 
   return (
     <section id="Contact">
       <div className="contact-container">
-
-        {/* Social Section */}
         <div className="thank-you">
           <img id="thanks-pic" src="/images/logo.png" alt="Company Logo" />
 
@@ -130,12 +127,14 @@ function Contact() {
             onChange={handleChange}
           ></textarea>
 
-          <button id="contact-submit" type="submit">
-            Submit
+          <button id="contact-submit" type="submit" disabled={status === "Sending..."}>
+            {status === "Sending..." ? "Sending..." : "Submit"}
           </button>
         </form>
 
-        {status && <p className="status-message">{status}</p>}
+        {status && status !== "Sending..." && (
+          <p className="status-message">{status}</p>
+        )}
       </div>
     </section>
   );
