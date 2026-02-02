@@ -11,7 +11,8 @@ function Services() {
             <div className="box-msg">
               <p>
                 With a wide variety of rental products, we ensure a diverse and exceptional
-                experience that will captivate your event and create unforgettable moments.
+                experience that will captivate your event and create lasting moments you will
+                never forget.
               </p>
             </div>
           </div>

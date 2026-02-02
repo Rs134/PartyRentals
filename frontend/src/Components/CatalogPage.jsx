@@ -17,8 +17,8 @@ function CatalogPage() {
           <h3 className={styles.essential}>
             Important: Our tents vary with different widths and lengths. We have 6ft,
             7ft, 8ft, 10ft, 12ft, 15ft, 18ft and 20ft wide tents that can each maximize
-            up to a certain length to complement various driveways and backyards.
-            Attached are just some tent projects conducted in the past.
+            up to a certain length to fit various driveways and backyards. Below are some 
+            tent setups that have been conducted in the past. 
           </h3>
           <a href="#catalogGrid">
             <button className={styles.continueToggle}>Rental Items</button>
