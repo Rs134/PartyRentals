@@ -245,13 +245,13 @@
   }
 }
 
-@media (max-height: 1403px){
+@media (max-height: 1993px){
   .catalogOpening{
     margin-top: 335px
   }
 
   .catalogGrid{
-    margin-top: 420px;
+    margin-top: 520px;
   }
 }
 

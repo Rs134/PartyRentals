@@ -148,12 +148,10 @@ header {
   border: 5px solid white;
 }
 
-/* Base styling for the slider images */
 .slider1 img,
 .slider2 img {
-  width: 950px;
-  height: 520px;
-  object-fit: cover;
+  width: 1000px;
+  height: 700px;
   box-shadow: 1px 10px 10px black;
   margin: auto;
   border: 10px solid white;
@@ -244,8 +242,8 @@ header {
 }
 
 #Services {
-  margin-top: 300px;
-  scroll-margin-top: 190px;
+  margin-top: 100px;
+  scroll-margin-top: 200px;
 }
 
 #he-2 {
@@ -256,7 +254,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  flex-wrap: wrap;
   gap: 40px;
 }
 
@@ -267,14 +265,14 @@ header {
   justify-content: center;
   background-color: #0f1433;
   border-radius: 30px;
-  width: 30%;
+  width: 400px;
   height: 500px;
   padding: 10px;
 }
 
 #box-2 {
   background-image: linear-gradient(to left, #00093f 0%, #33405e 100%);
-  transform: translateY(10%);
+
 }
 
 .box-title {
@@ -475,7 +473,7 @@ header {
   background-color: white;
   width: 550px;
   gap: 40px;
-  height: 750px;
+  height: 700px;
   border-radius: 20px;
 }
 
@@ -542,20 +540,17 @@ textarea:focus {
 }
 
 
+@media (min-height: 890px){
+  #About{
+    margin-top: 320px;
+    scroll-margin-top: 200px;
+  }
+}
 
-@media (max-width: 1330px) {
-  .slider1 img,
-  .slider2 img {
-    width: 100%;
-    max-width: 100%;
-    height: 550px;
-  }
-  header{
-    justify-content: center;
-    gap: 50px;
-    padding: 30px;
-    
-  }
+
+@media (max-width: 1250px) {
+
+
   .nav-bottom{
     flex-wrap: wrap;
   }
@@ -567,40 +562,21 @@ textarea:focus {
   }
 
   #About{
-    margin-top: 260px;
+    margin-top: 210px;
   }
 
   .about-container{
     flex-direction: column;
+    gap: 30px;
   }
   
   .about-msg{
-    width: 100%;
+    width: 70%;
   }
 
   #logo{
     width: 450px;
   }
-  .video1{
-    width: 100%;
-    max-width: 100%;
-    height: 90%;
-  }
-  .video1 video{
-    max-width: 100%;
-    max-height: 90%;
-  }
-
-  .services-container{
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 100px;
-  }
-  .box{
-    width: 100%;
-    max-width: 80%;
-  }
-
 
   .text-box{
     width: 100%;
@@ -625,6 +601,11 @@ textarea:focus {
     width: 100%;
   }
 
+  #box-2 {
+    transform: none;
+  }
+
+  
   .catalog-container .catalog-photos{
     flex-wrap: wrap;
   }
@@ -638,20 +619,46 @@ textarea:focus {
     transform: translateY(0%);
   }
   form{
-    width: 610px;
+    width: 810px;
   }
 
   .text-box{
-    width: 100%;
-    max-width: 100%;
-    min-width: 400px;
+    width: 400px;
   }
+
   #thanks-pic{
     width: 610px;
   }
 }
+@media (max-width: 1200px) {
+  #About{
+    margin-top: 190px;
+    scroll-margin-top: 170px;
+  }
+}
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  #About{
+    margin-top: 150px;
+    scroll-margin-top: 150px;
+  }
+}
+@media (max-width: 876px) {
+  #About{
+    margin-top: 180px;
+    scroll-margin-top: 150px;
+  }
+}
+
+@media (max-width: 955px) {
+  .slider1 img,
+  .slider2 img {
+    width: 800px;
+    height: 450px;
+  }
+}
+
+@media (max-width: 778px) {
  .slider1 img,
   .slider2 img {
     width: 100%;
@@ -688,15 +695,7 @@ textarea:focus {
   #logo{
     width: 450px;
   }
-  .video1{
-    width: 100%;
-    max-width: 100%;
-    height: 90%;
-  }
-  .video1 video{
-    max-width: 100%;
-    max-height: 90%;
-  }
+
 
   #Services{
     scroll-margin-top: 450px;
@@ -768,24 +767,26 @@ textarea:focus {
     min-width: 400px;
   }
   #thanks-pic{
-    width: 410px;
+    width: 610px;
   }
   #Contact{
     scroll-margin-top: 400px;
   }
 }
-@media (max-width: 480px) {
-
-  .slider1-container .slider2-container .slider1-section .slider2-section{
-    height: 550px; /* Adjust height for mobile */
-  }
-
+@media (max-width: 600px) {
   .slider1 img,
   .slider2 img {
-    width: 100%;
-    max-width: 100%;
+    width: 520px;
     height: 300px;
-  }
+}
+}
+
+@media (max-width: 480px) {
+  .slider1 img,
+  .slider2 img {
+    width: 420px;
+    height: 300px;
+}
 
   header{
     flex-wrap: wrap;

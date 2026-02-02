@@ -1,3 +1,4 @@
+import "../App.css"
 function About() {
   return (
     <section id="About">
