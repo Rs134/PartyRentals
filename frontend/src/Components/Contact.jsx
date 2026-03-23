@@ -11,7 +11,6 @@ function Contact() {
 
   const [status, setStatus] = useState("");
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,11 +18,9 @@ function Contact() {
     });
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare form data for Web3Forms
     const formDataToSend = new FormData();
     formDataToSend.append("access_key", "65ae3cf4-6a2a-434d-9e47-0400e03d49e7");
     formDataToSend.append("name", `${formData.firstname} ${formData.lastname}`);
@@ -90,7 +87,6 @@ function Contact() {
           </div>
         </div>
 
-        {/* Contact Form */}
         <form className="contact-form" onSubmit={handleSubmit}>
           <input
             type="text"

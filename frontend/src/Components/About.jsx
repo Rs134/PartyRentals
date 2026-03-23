@@ -4,7 +4,7 @@ function About() {
     <section id="About">
       <div className="about-container">
         <p className="about-msg">
-          With 10 years of rental experience, we strive to implement the best
+          With over 10 years of rental experience, we strive to implement the best
           qualitative and quantitative service that satisfies your desires and complements
           your event imagination.
         </p>
