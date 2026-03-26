@@ -36,7 +36,7 @@ function Contact() {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Success! Your message has been sent.");
+        alert("Thank you for contacting us! We will get back to you shortly.");
         setFormData({
           firstname: "",
           lastname: "",

@@ -1,63 +1,57 @@
 import { useState } from "react";
 import styles from "../catalogpage.module.css";
 
-function QuoteForm() {
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    address: "",
-    setup: "",
-    pickup: "",
-    tents: "",
-    extra: "",
-    chairsqty: "",
-    whitechaircoversqty: "",
-    cocktailqty: "",
-    blackcocktailcoversqty: "",
-    whitecocktailcoversqty: "",
-    roundtablesqty: "",
-    rectangleqty: "",
-    sixarmsilverchandelier: "",
-    eightarmsilverchandelier: "",
-    tenarmgoldchandelier: "",
-    chaferqty: "",
-  });
+const initialState = {
+  firstname: "", lastname: "", email: "", phone: "",
+  address: "", setup: "", pickup: "", tents: "", extra: "",
+  chairsqty: "", whitechaircoversqty: "", cocktailqty: "",
+  blackcocktailcoversqty: "", whitecocktailcoversqty: "",
+  roundtablesqty: "", rectangleqty: "", sixarmsilverchandelier: "",
+  eightarmsilverchandelier: "", tenarmgoldchandelier: "", chaferqty: "",
+};
 
+const rentalItems = [
+  { name: "White Folding Chairs", key: "chairsqty" },
+  { name: "White Chair Covers", key: "whitechaircoversqty" },
+  { name: "Cocktail Tables", key: "cocktailqty" },
+  { name: "Black Cocktail Table Covers", key: "blackcocktailcoversqty" },
+  { name: "White Cocktail Table Covers", key: "whitecocktailcoversqty" },
+  { name: "Round Tables", key: "roundtablesqty" },
+  { name: "Rectangle Tables", key: "rectangleqty" },
+  { name: "6 Arm Silver Chandelier", key: "sixarmsilverchandelier" },
+  { name: "8 Arm Silver Chandelier", key: "eightarmsilverchandelier" },
+  { name: "10 Arm Gold Chandelier", key: "tenarmgoldchandelier" },
+  { name: "Chafers", key: "chaferqty" },
+];
+
+const Field = ({ label, name, type = "text", required = false, formData, handleChange }) => (
+  <div className={styles.formGroup}>
+    <label>{label}:</label>
+    <input
+      type={type}
+      name={name}
+      required={required}
+      value={formData[name]}
+      onChange={handleChange}
+    />
+  </div>
+);
+
+function QuoteForm() {
+  const [formData, setFormData] = useState(initialState);
   const [status, setStatus] = useState("");
 
-  const rentalItems = [
-    { name: "White Folding Chairs", key: "chairsqty" },
-    { name: "White Chair Covers", key: "whitechaircoversqty" },
-    { name: "Cocktail Tables", key: "cocktailqty" },
-    { name: "Black Cocktail Table Covers", key: "blackcocktailcoversqty" },
-    { name: "White Cocktail Table Covers", key: "whitecocktailcoversqty" },
-    { name: "Round Tables", key: "roundtablesqty" },
-    { name: "Rectangle Tables", key: "rectangleqty" },
-    { name: "6 Arm Silver Chandelier", key: "sixarmsilverchandelier" },
-    { name: "8 Arm Silver Chandelier", key: "eightarmsilverchandelier" },
-    { name: "10 Arm Gold Chandelier", key: "tenarmgoldchandelier" },
-    { name: "Chafers", key: "chaferqty" },
-  ];
-
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let rentalItemsList = "";
-    rentalItems.forEach((item) => {
-      const qty = formData[item.key];
-      if (qty && qty > 0) {
-        rentalItemsList += `${item.name}: ${qty}\n`;
-      }
-    });
+    const rentalItemsList = rentalItems
+      .filter((item) => formData[item.key] > 0)
+      .map((item) => `${item.name}: ${formData[item.key]}`)
+      .join("\n") || "None selected";
 
     const formDataToSend = new FormData();
     formDataToSend.append("access_key", "65ae3cf4-6a2a-434d-9e47-0400e03d49e7");
@@ -65,8 +59,7 @@ function QuoteForm() {
     formDataToSend.append("name", `${formData.firstname} ${formData.lastname}`);
     formDataToSend.append("email", formData.email);
     formDataToSend.append("phone", formData.phone);
-    
-    const message = `
+    formDataToSend.append("message", `
       EVENT DETAILS:
       --------------
       Address: ${formData.address}
@@ -75,7 +68,7 @@ function QuoteForm() {
 
       RENTAL ITEMS:
       -------------
-      ${rentalItemsList || "None selected"}
+      ${rentalItemsList}
 
       TENT SIZES:
       -----------
@@ -84,9 +77,7 @@ function QuoteForm() {
       ADDITIONAL DETAILS:
       -------------------
       ${formData.extra || "None"}
-          `;
-
-    formDataToSend.append("message", message);
+    `);
 
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
@@ -97,29 +88,8 @@ function QuoteForm() {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Success! Your quote request has been sent.");
-        setFormData({
-          firstname: "",
-          lastname: "",
-          email: "",
-          phone: "",
-          address: "",
-          setup: "",
-          pickup: "",
-          tents: "",
-          extra: "",
-          chairsqty: "",
-          whitechaircoversqty: "",
-          cocktailqty: "",
-          blackcocktailcoversqty: "",
-          whitecocktailcoversqty: "",
-          roundtablesqty: "",
-          rectangleqty: "",
-          sixarmsilverchandelier: "",
-          eightarmsilverchandelier: "",
-          tenarmgoldchandelier: "",
-          chaferqty: "",
-        });
+        alert("Thank you for requesting a quote! We will get back to you shortly.");
+        setFormData(initialState);
       } else {
         setStatus("Error: " + data.message);
       }
@@ -136,84 +106,17 @@ function QuoteForm() {
           <h2 className={styles.formHeader}>Request A Quote</h2>
 
           <div className={styles.rowFlex}>
-            <div className={styles.formGroup}>
-              <label>First Name:</label>
-              <input
-                type="text"
-                name="firstname"
-                required
-                value={formData.firstname}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label>Last Name:</label>
-              <input
-                type="text"
-                name="lastname"
-                required
-                value={formData.lastname}
-                onChange={handleChange}
-              />
-            </div>
+            <Field label="First Name" name="firstname" required formData={formData} handleChange={handleChange} />
+            <Field label="Last Name" name="lastname" required formData={formData} handleChange={handleChange} />
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Phone Number:</label>
-            <input
-              type="tel"
-              name="phone"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Event Address:</label>
-            <input
-              type="text"
-              name="address"
-              required
-              value={formData.address}
-              onChange={handleChange}
-            />
-          </div>
+          <Field label="Email" name="email" type="email" required formData={formData} handleChange={handleChange} />
+          <Field label="Phone Number" name="phone" type="tel" required formData={formData} handleChange={handleChange} />
+          <Field label="Event Address" name="address" required formData={formData} handleChange={handleChange} />
 
           <div className={styles.rowFlex}>
-            <div className={styles.formGroup}>
-              <label>Setup Date:</label>
-              <input
-                type="date"
-                name="setup"
-                required
-                value={formData.setup}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label>Pickup Date:</label>
-              <input
-                type="date"
-                name="pickup"
-                required
-                value={formData.pickup}
-                onChange={handleChange}
-              />
-            </div>
+            <Field label="Setup Date" name="setup" type="date" required formData={formData} handleChange={handleChange} />
+            <Field label="Pickup Date" name="pickup" type="date" required formData={formData} handleChange={handleChange} />
           </div>
 
           <div className={styles.itemsGrid}>
@@ -231,15 +134,7 @@ function QuoteForm() {
             ))}
           </div>
 
-          <div className={styles.formGroup}>
-            <label>Tent Sizes (Ex: 10x20, 20x20, etc):</label>
-            <input
-              type="text"
-              name="tents"
-              value={formData.tents}
-              onChange={handleChange}
-            />
-          </div>
+          <Field label="Tent Sizes (Ex: 10x20, 20x20, etc)" name="tents" formData={formData} handleChange={handleChange} />
 
           <div className={styles.formGroup}>
             <label>Additional Details or Requests:</label>
@@ -251,17 +146,9 @@ function QuoteForm() {
             />
           </div>
 
-          <button 
-            type="submit" 
-            className={styles.quoteSubmit}
-            disabled={status === "Sending..."}
-          >
-            {status === "Sending..." ? "Sending..." : "Submit"}
-          </button>
+          <button type="submit" className={styles.quoteSubmit}>Submit</button>
 
-          {status && status !== "Sending..." && (
-            <p className={styles.statusMessage}>{status}</p>
-          )}
+          {status && <p className={styles.statusMessage}>{status}</p>}
         </form>
       </div>
     </section>
